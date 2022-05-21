@@ -1,5 +1,13 @@
 import {Router, RouteHandler} from 'itty-router';
-import {ApplicationCommandType, InteractionResponseType, InteractionType} from "discord-api-types/v10";
+import {
+    ApplicationCommandType,
+    InteractionResponseType,
+    InteractionType,
+    ApplicationCommandOptionType,
+    APIApplicationCommandInteractionDataNumberOption,
+    APIApplicationCommandInteractionDataStringOption,
+    APIApplicationCommandInteractionDataIntegerOption
+} from "discord-api-types/v10";
 import {isAPIInteraction} from "../util/validators/index.js";
 import {verifyKey} from '../util/index.js';
 import {ChatCommand, UserCommand, MessageCommand, JsonResponse} from "../structures/index.js";
@@ -16,11 +24,15 @@ export interface RegisterOptions {
     guildId?: string;
 }
 
+export type Choice = { name: string, value: string }
+export type Autocompleter = (query: string | number) => Choice[];
+
 export class Client {
     private readonly router: Router<Request, {}>;
     public chatCommands: Map<string, ChatCommand> = new Map<string, ChatCommand>();
     public userCommands: Map<string, UserCommand> = new Map<string, UserCommand>();
     public messageCommands: Map<string, MessageCommand> = new Map<string, MessageCommand>();
+    public autocompleters: Map<string, Autocompleter> = new Map<string, Autocompleter>();
 
     constructor(options?: RouterOptions) {
         this.router = Router();
@@ -59,6 +71,34 @@ export class Client {
             else return new JsonResponse(response);
         }
 
+        if(body.type === InteractionType.ApplicationCommandAutocomplete) {
+            const focused = body.data.options.find(o => {
+                switch(o.type) {
+                    case ApplicationCommandOptionType.String:
+                        return o.focused;
+                    case ApplicationCommandOptionType.Number:
+                        return o.focused;
+                    case ApplicationCommandOptionType.Integer:
+                        return o.focused;
+                    default:
+                        return false;
+                }
+            }) as APIApplicationCommandInteractionDataStringOption | APIApplicationCommandInteractionDataNumberOption | APIApplicationCommandInteractionDataIntegerOption | undefined;
+
+            if(!focused)
+                return Client.badRequest();
+
+            const autocompleter = this.autocompleters.get(focused.name);
+            if(!autocompleter)
+                return Client.badRequest();
+
+            const choices = autocompleter(focused.value);
+            return new JsonResponse({
+                type: InteractionResponseType.ApplicationCommandAutocompleteResult,
+                data: { choices },
+            });
+        }
+
         return Client.badRequest();
     }
 
@@ -71,25 +111,25 @@ export class Client {
         return this.router.handle(request);
     }
 
-    public addCommand(command: ChatCommand | UserCommand | MessageCommand): void {
+    public addCommand(data: {command: ChatCommand | UserCommand | MessageCommand, autocompleter?: Autocompleter}): void {
+        const command = data.command;
         if(command instanceof ChatCommand)
             this.chatCommands.set(command.data.name, command);
         else if(command instanceof UserCommand)
             this.userCommands.set(command.data.name, command);
         else
             this.messageCommands.set(command.data.name, command);
+
+        if(data.autocompleter)
+            this.autocompleters.set(command.data.name, data.autocompleter);
     }
 
-    public addCommands(commands: (ChatCommand | UserCommand | MessageCommand)[]): void {
-        for(const command of commands)
+    public addCommands(data: {command: (ChatCommand | UserCommand | MessageCommand), autocompleter?: Autocompleter}[]): void {
+        for(const command of data)
             this.addCommand(command);
     }
 
-    public export() {
-        return {
-            fetch: async (request: Request, env: {[key: string]: any}) => this.handle(request, env),
-        }
-    }
+    public export = () => ({fetch: async (request: Request, env: {[key: string]: any}) => this.handle(request, env)});
 
     public async registerCommands(options: RegisterOptions): Promise<any> {
         const url = options.guildId
