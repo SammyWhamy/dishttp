@@ -17,7 +17,7 @@ export class ChatCommand extends Command {
     public override executor: ChatCommandExecutor | undefined;
     public autocompleter: Autocompleter | undefined;
 
-    constructor(options: {data?: ChatCommandData, executor?: ChatCommandExecutor, autocompleter: Autocompleter}) {
+    constructor(options: {data?: ChatCommandData, executor?: ChatCommandExecutor, autocompleter?: Autocompleter}) {
         super();
 
         if(options.data)
