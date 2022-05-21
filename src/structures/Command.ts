@@ -15,6 +15,7 @@ export interface CommandData {
     name_localizations?: { [ key in Locale]: string },
     dm_permission?: boolean,
     default_member_permissions?: string,
+    nsfw?: boolean,
 }
 
 export type CommandResponse = MessageResponse | APIInteractionResponseChannelMessageWithSource | APIInteractionResponseDeferredChannelMessageWithSource | APIModalInteractionResponse;
