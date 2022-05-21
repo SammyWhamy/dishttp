@@ -5,11 +5,11 @@ export class UserCommand extends Command {
     public override type: ApplicationCommandType = ApplicationCommandType.User;
     public override executor: UserCommandExecutor | undefined;
 
-    constructor(data?: CommandData | null, executor?: UserCommandExecutor) {
-        super(data);
+    constructor(options?: {data?: CommandData, executor?: UserCommandExecutor}) {
+        super(options);
 
-        if(executor)
-            this.executor = executor;
+        if(options?.executor)
+            this.executor = options.executor;
     }
 
     public setExecutor(executor: UserCommandExecutor) {

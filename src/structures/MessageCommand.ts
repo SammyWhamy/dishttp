@@ -5,11 +5,11 @@ export class MessageCommand extends Command {
     public override type: ApplicationCommandType = ApplicationCommandType.Message;
     public override executor: MessageCommandExecutor | undefined;
 
-    constructor(data?: CommandData | null, executor?: MessageCommandExecutor) {
-        super(data);
+    constructor(options?: {data?: CommandData, executor?: MessageCommandExecutor}) {
+        super(options);
 
-        if(executor)
-            this.executor = executor;
+        if(options?.executor)
+            this.executor = options.executor;
     }
 
     public setExecutor(executor: MessageCommandExecutor) {

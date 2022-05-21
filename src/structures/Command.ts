@@ -28,9 +28,9 @@ export abstract class Command {
     protected type: ApplicationCommandType;
     protected executor: ChatCommandExecutor | UserCommandExecutor | MessageCommandExecutor | undefined;
 
-    protected constructor(data?: CommandData | null) {
-        if(data)
-            this.data = data;
+    protected constructor(options?: {data?: CommandData}) {
+        if(options?.data)
+            this.data = options.data;
 
         this.type = -1;
         this.executor = null as any;
