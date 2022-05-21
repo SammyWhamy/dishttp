@@ -34,6 +34,12 @@ export class Embed extends JsonConvertable {
         return this;
     }
 
+    public addField(name: string, value: string, inline: boolean = false): this {
+        if (this.data.fields) this.data.fields.push({ name, value, inline });
+        else this.data.fields = [{ name, value, inline }];
+        return this;
+    }
+
     public setAuthor(options: EmbedAuthorOptions | null): this {
         if (options === null) {
             // @ts-expect-error : exactOptionalPropertyTypes
