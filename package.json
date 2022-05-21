@@ -1,0 +1,28 @@
+{
+  "name": "dishttp",
+  "version": "1.0.0",
+  "description": "A Discord HTTP Interactions library for Node.JS",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Sam Teeuwisse",
+  "license": "MIT",
+  "private": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./structures": "./dist/structures/index.js",
+    "./nodeInit": "./dist/nodeInit.js"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.32.1",
+    "itty-router": "^2.6.1",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.33",
+    "typescript": "^4.6.4"
+  },
+  "optionalDependencies": {
+    "node-fetch": "^3.2.4"
+  }
+}
