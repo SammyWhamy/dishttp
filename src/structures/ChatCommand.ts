@@ -8,18 +8,26 @@ export interface ChatCommandData extends CommandData {
     description_localizations?: { [ key in Locale]: string },
 }
 
+export type Choice = { name: string, value: string }
+export type Autocompleter = (query: string | number) => Choice[];
+
 export class ChatCommand extends Command {
     public override data: ChatCommandData = {} as ChatCommandData;
     public override type: ApplicationCommandType = ApplicationCommandType.ChatInput;
     public override executor: ChatCommandExecutor | undefined;
+    public autocompleter: Autocompleter | undefined;
 
-    constructor(data?: ChatCommandData | null, executor?: ChatCommandExecutor) {
+    constructor(data: {data?: ChatCommandData, executor?: ChatCommandExecutor, autocompleter: Autocompleter}) {
         super();
-        if(data)
-            this.data = data;
 
-        if(executor)
-            this.executor = executor;
+        if(data.data)
+            this.data = data.data;
+
+        if(data.executor)
+            this.executor = data.executor;
+
+        if(data.autocompleter)
+            this.autocompleter = data.autocompleter;
     }
 
     public setOptions(options: APIApplicationCommandOption[]) {

@@ -10,7 +10,7 @@ import {
 } from "discord-api-types/v10";
 import {isAPIInteraction} from "../util/validators/index.js";
 import {verifyKey} from '../util/index.js';
-import {ChatCommand, UserCommand, MessageCommand, JsonResponse} from "../structures/index.js";
+import {ChatCommand, UserCommand, MessageCommand, JsonResponse, Command} from "../structures/index.js";
 import {JSON_HEADERS} from "../constants/index.js";
 import {JsonConvertable} from "../structures/JsonConvertable.js";
 
@@ -24,15 +24,11 @@ export interface RegisterOptions {
     guildId?: string;
 }
 
-export type Choice = { name: string, value: string }
-export type Autocompleter = (query: string | number) => Choice[];
-
 export class Client {
     private readonly router: Router<Request, {}>;
     public chatCommands: Map<string, ChatCommand> = new Map<string, ChatCommand>();
     public userCommands: Map<string, UserCommand> = new Map<string, UserCommand>();
     public messageCommands: Map<string, MessageCommand> = new Map<string, MessageCommand>();
-    public autocompleters: Map<string, Autocompleter> = new Map<string, Autocompleter>();
 
     constructor(options?: RouterOptions) {
         this.router = Router();
@@ -88,11 +84,11 @@ export class Client {
             if(!focused)
                 return Client.badRequest();
 
-            const autocompleter = this.autocompleters.get(focused.name);
-            if(!autocompleter)
+            const command = this.chatCommands.get(body.data.name);
+            if(!command?.autocompleter)
                 return Client.badRequest();
 
-            const choices = autocompleter(focused.value);
+            const choices = command.autocompleter(focused.value);
             return new JsonResponse({
                 type: InteractionResponseType.ApplicationCommandAutocompleteResult,
                 data: { choices },
@@ -111,21 +107,17 @@ export class Client {
         return this.router.handle(request);
     }
 
-    public addCommand(data: {command: ChatCommand | UserCommand | MessageCommand, autocompleter?: Autocompleter}): void {
-        const command = data.command;
+    public addCommand(command: Command): void {
         if(command instanceof ChatCommand)
             this.chatCommands.set(command.data.name, command);
         else if(command instanceof UserCommand)
             this.userCommands.set(command.data.name, command);
-        else
+        else if(command instanceof MessageCommand)
             this.messageCommands.set(command.data.name, command);
-
-        if(data.autocompleter)
-            this.autocompleters.set(command.data.name, data.autocompleter);
     }
 
-    public addCommands(data: {command: (ChatCommand | UserCommand | MessageCommand), autocompleter?: Autocompleter}[]): void {
-        for(const command of data)
+    public addCommands(commands: Command[]): void {
+        for(const command of commands)
             this.addCommand(command);
     }
 
