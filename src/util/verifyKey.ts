@@ -1,4 +1,4 @@
-import nacl from 'tweetnacl';
+import {verify} from "../lib/nacl.js";
 
 function valueToUint8Array(value: ArrayBuffer | string, format?: string) {
     if (value == null)
@@ -34,7 +34,7 @@ export function verifyKey(body: ArrayBuffer, signature: string, timestamp: strin
 
         const signatureData = valueToUint8Array(signature, 'hex');
         const publicKeyData = valueToUint8Array(clientPublicKey, 'hex');
-        return nacl.sign.detached.verify(message, signatureData, publicKeyData);
+        return verify(message, signatureData, publicKeyData);
     } catch (ex) {
         console.error('Invalid verifyKey parameters', ex);
         return false;
