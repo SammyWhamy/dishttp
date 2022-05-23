@@ -9,7 +9,7 @@ import {
     InteractionResponseType,
     InteractionType
 } from "discord-api-types/v10";
-import {isAPIInteraction} from "../util/validators/index.js";
+import {isAPIInteraction} from "../util/index.js";
 import {verifyKey} from '../util/index.js';
 import {
     ChatCommand,
@@ -19,9 +19,10 @@ import {
     UserCommand
 } from "../structures/index.js";
 import {JSON_HEADERS} from "../constants/index.js";
-import {JsonConvertable} from "../structures/json/JsonConvertable.js";
+import {JsonConvertable} from "../structures/index.js";
 import {ButtonComponentHandler} from "../structures/index.js";
-import {ComponentHandler} from "../structures/components/ComponentHandler.js";
+import {ComponentHandler} from "../structures/index.js";
+import {ModalHandler} from "../structures/modal/ModalHandler.js";
 
 export interface RouterOptions {
     notFoundHandler? (...handler: RouteHandler<Request>[]): Promise<JsonResponse> | JsonResponse;
@@ -43,6 +44,7 @@ export interface ClientHandlers {
         button: Map<string, ButtonComponentHandler>,
         selectMenu: Map<string, SelectMenuComponentHandler>,
     },
+    modal: Map<string, ModalHandler>,
 }
 export type Env = { [key: string]: string };
 
@@ -58,6 +60,7 @@ export class Client {
             button: new Map<string, ButtonComponentHandler>(),
             selectMenu: new Map<string, SelectMenuComponentHandler>(),
         },
+        modal: new Map<string, ModalHandler>(),
     }
 
     constructor(options?: RouterOptions) {
@@ -74,6 +77,15 @@ export class Client {
         if (!isAPIInteraction(body)) return Client.badRequest();
 
         if (body.type === InteractionType.Ping) return Client.interactionPong();
+
+        if (body.type === InteractionType.ModalSubmit) {
+            const modal = this.handlers.modal.get(body.data.custom_id);
+            if (!modal) return Client.badRequest();
+            if (!modal.executor) throw new Error('Modal executor is not defined');
+            const response = await modal.executor(body, env);
+            if (response instanceof JsonConvertable) return new JsonResponse(response.toJson());
+            else return new JsonResponse(response);
+        }
 
         if (body.type === InteractionType.MessageComponent) {
             let component: ComponentHandler | undefined;
