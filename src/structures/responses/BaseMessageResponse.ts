@@ -42,6 +42,9 @@ export class BaseMessageResponse extends JsonConvertable {
 
         if(options?.embeds)
             this.setEmbeds(options.embeds);
+
+        if(options?.components)
+            this.setComponents(options.components);
     }
 
     public setTTS(tts: boolean): BaseMessageResponse {
