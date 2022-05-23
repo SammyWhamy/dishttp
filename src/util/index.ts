@@ -1,7 +1,2 @@
-import validators from './validators/index.js';
-import { verifyKey } from './verifyKey.js';
-
-export {
-    validators,
-    verifyKey,
-}
+export * from './validators/index.js';
+export * from './verifyKey.js';
