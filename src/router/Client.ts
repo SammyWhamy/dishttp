@@ -65,7 +65,7 @@ export class Client {
         this.router.all('*', options?.notFoundHandler || Client.notFound);
     }
 
-    private async handlePostRequest(request: Request): Promise<JsonResponse> {
+    private async handlePostRequest(request: Request, env: NodeJS.ProcessEnv): Promise<JsonResponse> {
         if (!request.json) return Client.badRequest();
 
         const body = await request.json();
@@ -87,8 +87,8 @@ export class Client {
             }
 
             if(!component) return Client.badRequest();
-            if(!component.executor) throw new Error('Component handler is not defined');
-            const response = await component.executor(body as any);
+            if(!component.executor) throw new Error('Component executor is not defined');
+            const response = await component.executor(body as any, env);
             if (response instanceof JsonConvertable) return new JsonResponse(response.toJson());
             else return new JsonResponse(response);
         }
@@ -110,7 +110,7 @@ export class Client {
 
             if(!command) return Client.badRequest();
             if(!command.executor) throw new Error('Command executor is not defined');
-            const response = await command.executor(body as any);
+            const response = await command.executor(body as any, env);
             if (response instanceof JsonConvertable) return new JsonResponse(response.toJson());
             else return new JsonResponse(response);
         }

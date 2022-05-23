@@ -19,9 +19,9 @@ export interface CommandData {
 }
 
 export type CommandResponse = MessageResponse | APIInteractionResponseChannelMessageWithSource | APIInteractionResponseDeferredChannelMessageWithSource | APIModalInteractionResponse;
-export type ChatCommandExecutor = (message: APIChatInputApplicationCommandInteraction) => CommandResponse | Promise<CommandResponse>;
-export type UserCommandExecutor = (message: APIUserApplicationCommandInteraction) => CommandResponse | Promise<CommandResponse>;
-export type MessageCommandExecutor = (message: APIMessageApplicationCommandInteraction) => CommandResponse | Promise<CommandResponse>;
+export type ChatCommandExecutor = (message: APIChatInputApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
+export type UserCommandExecutor = (message: APIUserApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
+export type MessageCommandExecutor = (message: APIMessageApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
 
 export abstract class Command {
     public data: CommandData = {} as CommandData;

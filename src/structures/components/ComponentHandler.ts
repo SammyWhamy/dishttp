@@ -13,8 +13,8 @@ export interface ComponentHandlerData {
 }
 
 export type ComponentResponseUnion = ComponentResponse | MessageResponse | APIInteractionResponseDeferredMessageUpdate | APIInteractionResponseUpdateMessage;
-export type ButtonComponentExecutor = (component: APIMessageComponentButtonInteraction) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
-export type SelectMenuComponentExecutor = (component: APIMessageComponentSelectMenuInteraction) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
+export type ButtonComponentExecutor = (component: APIMessageComponentButtonInteraction, env: NodeJS.ProcessEnv) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
+export type SelectMenuComponentExecutor = (component: APIMessageComponentSelectMenuInteraction, env: NodeJS.ProcessEnv) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
 
 export abstract class ComponentHandler {
     public customId: string = null as any;
