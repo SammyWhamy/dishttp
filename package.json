@@ -1,6 +1,6 @@
 {
   "name": "dishttp",
-  "version": "2.0.0-alpha.22",
+  "version": "2.0.0-alpha.23",
   "description": "A Discord HTTP Interactions library for Node.JS",
   "type": "module",
   "main": "dist/index.js",
@@ -10,7 +10,6 @@
   "private": false,
   "exports": {
     ".": "./dist/index.js",
-    "./structures": "./dist/structures/index.js",
     "./nodeInit": "./dist/nodeInit.js"
   },
   "dependencies": {
