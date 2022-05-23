@@ -184,14 +184,16 @@ export class Client {
             this.addCommand(command);
     }
 
-    public addHandler(handler: ComponentHandler): void {
+    public addHandler(handler: ComponentHandler | ModalHandler): void {
         if(handler instanceof ButtonComponentHandler)
             this.handlers.components.button.set(handler.customId, handler);
         else if(handler instanceof SelectMenuComponentHandler)
             this.handlers.components.selectMenu.set(handler.customId, handler);
+        else if(handler instanceof ModalHandler)
+            this.handlers.modal.set(handler.customId, handler);
     }
 
-    public addHandlers(handlers: ComponentHandler[]): void {
+    public addHandlers(handlers: (ComponentHandler | ModalHandler)[]): void {
         for(const handler of handlers)
             this.addHandler(handler);
     }
