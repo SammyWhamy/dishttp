@@ -6,12 +6,13 @@ import {
 } from "discord-api-types/v10.js";
 import {Env} from "../../router/Client.js";
 
-export interface ModalHandlerOptions {
-    customId: string;
-}
-
 export type ModalResponseUnion = MessageResponse | APIInteractionResponseChannelMessageWithSource | APIInteractionResponseDeferredChannelMessageWithSource;
 export type ModalExecutor = (modal: APIModalSubmitInteraction, env: Env) => ModalResponseUnion | Promise<ModalResponseUnion>;
+
+export interface ModalHandlerOptions {
+    customId?: string,
+    executor?: ModalExecutor,
+}
 
 export class ModalHandler {
     public customId: string = null as any;
@@ -20,6 +21,9 @@ export class ModalHandler {
     constructor(options?: ModalHandlerOptions) {
         if(options?.customId)
             this.customId = options.customId;
+
+        if(options?.executor)
+            this.executor = options.executor;
     }
 
     public setCustomId(customId: string) {
