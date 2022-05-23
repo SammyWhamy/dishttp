@@ -9,6 +9,7 @@ import {
     APIMessageApplicationCommandInteraction
 } from 'discord-api-types/v10';
 import {MessageResponse} from "../responses/MessageResponse.js";
+import {Env} from "../../router/Client.js";
 
 export interface CommandData {
     name: string,
@@ -19,9 +20,9 @@ export interface CommandData {
 }
 
 export type CommandResponse = MessageResponse | APIInteractionResponseChannelMessageWithSource | APIInteractionResponseDeferredChannelMessageWithSource | APIModalInteractionResponse;
-export type ChatCommandExecutor = (message: APIChatInputApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
-export type UserCommandExecutor = (message: APIUserApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
-export type MessageCommandExecutor = (message: APIMessageApplicationCommandInteraction, env: NodeJS.ProcessEnv) => CommandResponse | Promise<CommandResponse>;
+export type ChatCommandExecutor = (message: APIChatInputApplicationCommandInteraction, env: Env) => CommandResponse | Promise<CommandResponse>;
+export type UserCommandExecutor = (message: APIUserApplicationCommandInteraction, env: Env) => CommandResponse | Promise<CommandResponse>;
+export type MessageCommandExecutor = (message: APIMessageApplicationCommandInteraction, env: Env) => CommandResponse | Promise<CommandResponse>;
 
 export abstract class Command {
     public data: CommandData = {} as CommandData;

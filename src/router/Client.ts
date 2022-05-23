@@ -44,6 +44,7 @@ export interface ClientHandlers {
         selectMenu: Map<string, SelectMenuComponentHandler>,
     },
 }
+export type Env = { [key: string]: string };
 
 export class Client {
     private readonly router: Router<Request, {}>;
@@ -65,7 +66,7 @@ export class Client {
         this.router.all('*', options?.notFoundHandler || Client.notFound);
     }
 
-    private async handlePostRequest(request: Request, env: NodeJS.ProcessEnv): Promise<JsonResponse> {
+    private async handlePostRequest(request: Request, env: Env): Promise<JsonResponse> {
         if (!request.json) return Client.badRequest();
 
         const body = await request.json();
@@ -154,7 +155,7 @@ export class Client {
             }
         }
 
-        return this.router.handle(request);
+        return this.router.handle(request, env);
     }
 
     public addCommand(command: Command): void {
