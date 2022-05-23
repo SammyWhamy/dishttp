@@ -3,8 +3,8 @@ import {
     APIInteractionResponse,
 } from "discord-api-types/v10";
 import {JsonConvertable} from "../json/JsonConvertable.js";
-import {Embed} from "../blocks/Embed.js";
-import {ActionRow} from "../blocks/ActionRow.js";
+import {Embed} from "../objects/Embed.js";
+import {ActionRow} from "../objects/ActionRow.js";
 
 export interface BaseMessageResponseOptions {
     tts?: boolean;

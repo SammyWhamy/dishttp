@@ -1,6 +1,6 @@
-export * from "./blocks/Embed.js";
-export * from "./blocks/Button.js";
-export * from "./blocks/ActionRow.js";
+export * from "./objects/Embed.js";
+export * from "./objects/Button.js";
+export * from "./objects/ActionRow.js";
 
 export * from "./commands/ChatCommand.js";
 export * from "./commands/Command.js";
