@@ -8,3 +8,4 @@ export * from "./blocks/Embed.js";
 export * from "./blocks/Button.js";
 export * from "./components/ButtonComponentHandler.js";
 export * from "./components/SelectMenuComponentHandler.js";
+export * from "./blocks/ActionRow.js";
