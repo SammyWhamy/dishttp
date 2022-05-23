@@ -1,6 +1,6 @@
 import {InteractionResponseType, APIInteractionResponse} from "discord-api-types/v10";
 import {JsonConvertable} from "../json/JsonConvertable.js";
-import {Embed} from "../Blocks/Embed.js";
+import {Embed} from "../blocks/Embed.js";
 
 export interface BaseMessageResponseOptions {
     tts?: boolean;

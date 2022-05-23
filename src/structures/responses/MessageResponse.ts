@@ -1,5 +1,5 @@
 import {APIInteractionResponseChannelMessageWithSource, InteractionResponseType} from "discord-api-types/v10";
-import {Embed} from "../Blocks/Embed.js";
+import {Embed} from "../blocks/Embed.js";
 import {BaseMessageResponse} from "./BaseMessageResponse.js";
 
 export interface MessageResponseOptions {

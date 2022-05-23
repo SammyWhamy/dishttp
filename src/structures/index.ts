@@ -4,4 +4,7 @@ export * from "./json/JsonResponse.js";
 export * from "./commands/MessageCommand.js";
 export * from "./responses/MessageResponse.js";
 export * from "./commands/UserCommand.js";
-export * from "./Blocks/Embed.js";
+export * from "./blocks/Embed.js";
+export * from "./blocks/Button.js";
+export * from "./components/ButtonComponentHandler.js";
+export * from "./components/SelectMenuComponentHandler.js";

@@ -11,12 +11,17 @@ import {
 } from "discord-api-types/v10";
 import {isAPIInteraction} from "../util/validators/index.js";
 import {verifyKey} from '../util/index.js';
-import {ChatCommand, Command, JsonResponse, MessageCommand, UserCommand} from "../structures/index.js";
+import {
+    ChatCommand,
+    Command,
+    JsonResponse,
+    MessageCommand, SelectMenuComponentHandler,
+    UserCommand
+} from "../structures/index.js";
 import {JSON_HEADERS} from "../constants/index.js";
 import {JsonConvertable} from "../structures/json/JsonConvertable.js";
-import {ButtonComponent} from "../structures/components/ButtonComponent.js";
-import {SelectMenuComponent} from "../structures/components/SelectMenuComponent.js";
-import {Component} from "../structures/components/Component.js";
+import {ButtonComponentHandler} from "../structures/index.js";
+import {ComponentHandler} from "../structures/components/ComponentHandler.js";
 
 export interface RouterOptions {
     notFoundHandler? (...handler: RouteHandler<Request>[]): Promise<JsonResponse> | JsonResponse;
@@ -35,8 +40,8 @@ export interface ClientHandlers {
         message: Map<string, MessageCommand>,
     },
     components: {
-        button: Map<string, ButtonComponent>,
-        selectMenu: Map<string, SelectMenuComponent>,
+        button: Map<string, ButtonComponentHandler>,
+        selectMenu: Map<string, SelectMenuComponentHandler>,
     },
 }
 
@@ -49,8 +54,8 @@ export class Client {
             message: new Map<string, MessageCommand>(),
         },
         components: {
-            button: new Map<string, ButtonComponent>(),
-            selectMenu: new Map<string, SelectMenuComponent>(),
+            button: new Map<string, ButtonComponentHandler>(),
+            selectMenu: new Map<string, SelectMenuComponentHandler>(),
         },
     }
 
@@ -70,7 +75,7 @@ export class Client {
         if (body.type === InteractionType.Ping) return Client.interactionPong();
 
         if (body.type === InteractionType.MessageComponent) {
-            let component: Component | undefined;
+            let component: ComponentHandler | undefined;
 
             switch(body.data.component_type) {
                 case ComponentType.Button:
@@ -82,8 +87,8 @@ export class Client {
             }
 
             if(!component) return Client.badRequest();
-            if(!component.handler) throw new Error('Component handler is not defined');
-            const response = await component.handler(body as any);
+            if(!component.executor) throw new Error('Component handler is not defined');
+            const response = await component.executor(body as any);
             if (response instanceof JsonConvertable) return new JsonResponse(response.toJson());
             else return new JsonResponse(response);
         }
