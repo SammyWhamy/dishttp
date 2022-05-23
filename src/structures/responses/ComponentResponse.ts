@@ -1,13 +1,12 @@
 import {InteractionResponseType, APIInteractionResponseUpdateMessage} from "discord-api-types/v10";
-import {BaseMessageResponse} from "./BaseMessageResponse.js";
-import {MessageResponseOptions} from "./MessageResponse.js";
+import {BaseMessageResponse, BaseMessageResponseOptions} from "./BaseMessageResponse.js";
 
 export declare interface ComponentResponse {
     toJson(): APIInteractionResponseUpdateMessage;
 }
 
 export class ComponentResponse extends BaseMessageResponse {
-    constructor(options?: MessageResponseOptions) {
+    constructor(options?: BaseMessageResponseOptions) {
         super(InteractionResponseType.UpdateMessage, options);
     }
 }
