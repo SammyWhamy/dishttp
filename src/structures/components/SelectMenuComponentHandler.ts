@@ -5,11 +5,11 @@ export class SelectMenuComponentHandler extends ComponentHandler {
     public override type: ComponentType = ComponentType.SelectMenu;
     public override executor: SelectMenuComponentExecutor | undefined;
 
-    constructor(options?: {data?: ComponentHandlerData, handler?: SelectMenuComponentExecutor}) {
+    constructor(options?: {data?: ComponentHandlerData, executor?: SelectMenuComponentExecutor}) {
         super(options);
 
-        if(options?.handler)
-            this.executor = options.handler;
+        if(options?.executor)
+            this.executor = options.executor;
     }
 
     public setHandler(handler: SelectMenuComponentExecutor) {

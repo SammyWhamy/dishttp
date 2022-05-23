@@ -6,12 +6,13 @@ import {
     ComponentType,
 } from "discord-api-types/v10";
 import {ComponentResponse} from "../responses/ComponentResponse.js";
+import {MessageResponse} from "../responses/MessageResponse.js";
 
 export interface ComponentHandlerData {
     custom_id: string,
 }
 
-export type ComponentResponseUnion = ComponentResponse | APIInteractionResponseDeferredMessageUpdate | APIInteractionResponseUpdateMessage;
+export type ComponentResponseUnion = ComponentResponse | MessageResponse | APIInteractionResponseDeferredMessageUpdate | APIInteractionResponseUpdateMessage;
 export type ButtonComponentExecutor = (component: APIMessageComponentButtonInteraction) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
 export type SelectMenuComponentExecutor = (component: APIMessageComponentSelectMenuInteraction) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
 

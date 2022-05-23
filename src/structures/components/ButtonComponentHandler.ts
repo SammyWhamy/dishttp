@@ -5,11 +5,11 @@ export class ButtonComponentHandler extends ComponentHandler {
     public override type: ComponentType = ComponentType.Button;
     public override executor: ButtonComponentExecutor | undefined;
 
-    constructor(options?: {data?: ComponentHandlerData, handler?: ButtonComponentExecutor}) {
+    constructor(options?: {data?: ComponentHandlerData, executor?: ButtonComponentExecutor}) {
         super(options);
 
-        if(options?.handler)
-            this.executor = options.handler;
+        if(options?.executor)
+            this.executor = options.executor;
     }
 
     public setHandler(handler: ButtonComponentExecutor) {
