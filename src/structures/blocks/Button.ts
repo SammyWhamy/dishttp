@@ -1,8 +1,8 @@
-import {ButtonStyle, APIButtonComponent, APIMessageComponentEmoji} from "discord-api-types/v10";
+import {APIButtonComponent, APIMessageComponentEmoji, ButtonStyle, ComponentType} from "discord-api-types/v10";
 import {JsonConvertable} from "../json/JsonConvertable.js";
 
 export class Button extends JsonConvertable {
-    public data: APIButtonComponent & {custom_id: string, url: string} = {} as any;
+    public data: APIButtonComponent & {custom_id: string, url: string} = {type: ComponentType.Button} as any;
 
     public setStyle(style: ButtonStyle) {
         this.data.style = style;
