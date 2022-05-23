@@ -209,7 +209,7 @@ export class Client {
 
         if (!response.ok) {
             console.error(`Error registering commands (${response.status}): ${await response.text()}`);
-            return;
+            return commands;
         }
 
         console.log('Commands registered');
