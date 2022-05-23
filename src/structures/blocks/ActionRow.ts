@@ -5,7 +5,7 @@ import {Button} from "./Button.js";
 type ComponentUnion = Button | APIButtonComponent | APISelectMenuComponent;
 
 export class ActionRow extends JsonConvertable {
-    public data: APIActionRowComponent<APIButtonComponent | APISelectMenuComponent> = {} as any;
+    public data: APIActionRowComponent<APIButtonComponent | APISelectMenuComponent> = {type: 1, components: []};
 
     public setComponents(components: ComponentUnion[]) {
         this.data.components = components.map(component => {
