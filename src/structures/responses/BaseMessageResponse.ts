@@ -1,14 +1,10 @@
 import {
     InteractionResponseType,
     APIInteractionResponse,
-    APIButtonComponent,
-    APISelectMenuComponent
 } from "discord-api-types/v10";
 import {JsonConvertable} from "../json/JsonConvertable.js";
 import {Embed} from "../blocks/Embed.js";
-import {Button} from "../blocks/Button.js";
-
-type ComponentUnion = Button | APIButtonComponent | APISelectMenuComponent;
+import {ActionRow} from "../blocks/ActionRow.js";
 
 export interface BaseMessageResponseOptions {
     tts?: boolean;
@@ -16,7 +12,7 @@ export interface BaseMessageResponseOptions {
     ephemeral?: boolean;
     suppressEmbeds?: boolean;
     embeds?: Embed[];
-    components?: ComponentUnion[];
+    components?: ActionRow[];
 }
 
 export class BaseMessageResponse extends JsonConvertable {
@@ -25,7 +21,7 @@ export class BaseMessageResponse extends JsonConvertable {
     protected flags = 0;
     protected content: string | undefined;
     protected embeds: Embed[] = [];
-    protected components: ComponentUnion[] = [];
+    protected components: ActionRow[] = [];
 
     constructor(type: InteractionResponseType.ChannelMessageWithSource | InteractionResponseType.UpdateMessage, options?: BaseMessageResponseOptions) {
         super();
@@ -89,13 +85,18 @@ export class BaseMessageResponse extends JsonConvertable {
         return this;
     }
 
-    public setComponents(components: ComponentUnion[]): BaseMessageResponse {
+    public setComponents(components: ActionRow[]): BaseMessageResponse {
         this.components = components;
         return this;
     }
 
-    public addComponent(component: ComponentUnion): BaseMessageResponse {
+    public addComponent(component: ActionRow): BaseMessageResponse {
         this.components.push(component);
+        return this;
+    }
+
+    public addComponents(components: ActionRow[]): BaseMessageResponse {
+        this.components.push(...components);
         return this;
     }
 
@@ -106,7 +107,8 @@ export class BaseMessageResponse extends JsonConvertable {
                 flags: this.flags,
                 content: this.content,
                 tts: this.tts,
-                embeds: this.embeds.map(e => e.toJson())
+                embeds: this.embeds.map(e => e.toJson()),
+                components: this.components.map(c => c.toJson())
             }
         }
     }
