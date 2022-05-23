@@ -17,13 +17,16 @@ export class ChatCommand extends Command {
     public override executor: ChatCommandExecutor | undefined;
     public autocompleter: Autocompleter | undefined;
 
-    constructor(options: {data?: ChatCommandData, executor?: ChatCommandExecutor, autocompleter?: Autocompleter}) {
-        super(options);
+    constructor(options?: {data?: ChatCommandData, executor?: ChatCommandExecutor, autocompleter?: Autocompleter}) {
+        super();
 
-        if(options.executor)
+        if(options?.data)
+            this.data = options.data;
+
+        if(options?.executor)
             this.executor = options.executor;
 
-        if(options.autocompleter)
+        if(options?.autocompleter)
             this.autocompleter = options.autocompleter;
     }
 
