@@ -8,12 +8,13 @@ import {
 import {ComponentResponse} from "../responses/ComponentResponse.js";
 import {MessageResponse} from "../responses/MessageResponse.js";
 import {Env} from "../../router/Client.js";
+import {ModalResponse} from "../responses/ModalResponse.js";
 
 export interface ComponentHandlerData {
     custom_id: string,
 }
 
-export type ComponentResponseUnion = ComponentResponse | MessageResponse | APIInteractionResponseDeferredMessageUpdate | APIInteractionResponseUpdateMessage;
+export type ComponentResponseUnion = ModalResponse | ComponentResponse | MessageResponse | APIInteractionResponseDeferredMessageUpdate | APIInteractionResponseUpdateMessage;
 export type ButtonComponentExecutor = (component: APIMessageComponentButtonInteraction, env: Env) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
 export type SelectMenuComponentExecutor = (component: APIMessageComponentSelectMenuInteraction, env: Env) => ComponentResponseUnion | Promise<ComponentResponseUnion>;
 
