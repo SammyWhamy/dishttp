@@ -171,6 +171,18 @@ export class Client {
             this.addCommand(command);
     }
 
+    public addHandler(handler: ComponentHandler): void {
+        if(handler instanceof ButtonComponentHandler)
+            this.handlers.components.button.set(handler.customId, handler);
+        else if(handler instanceof SelectMenuComponentHandler)
+            this.handlers.components.selectMenu.set(handler.customId, handler);
+    }
+
+    public addHandlers(handlers: ComponentHandler[]): void {
+        for(const handler of handlers)
+            this.addHandler(handler);
+    }
+
     public export = () => ({fetch: async (request: Request, env: {[key: string]: any}) => this.handle(request, env)});
 
     public async registerCommands(options: RegisterOptions): Promise<any> {
