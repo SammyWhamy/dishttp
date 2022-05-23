@@ -1,4 +1,4 @@
-import {JSON_HEADERS} from "../constants/index.js";
+import {JSON_HEADERS} from "../../constants/index.js";
 
 export class JsonResponse extends Response {
     constructor(body: object, init?: object) {

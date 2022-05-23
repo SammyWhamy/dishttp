@@ -1,8 +1,8 @@
-import {InteractionResponseType, APIInteractionResponseChannelMessageWithSource} from "discord-api-types/v10";
-import {JsonConvertable} from "./JsonConvertable.js";
-import {Embed} from "./Embed.js";
+import {InteractionResponseType, APIInteractionResponse} from "discord-api-types/v10";
+import {JsonConvertable} from "../json/JsonConvertable.js";
+import {Embed} from "../Blocks/Embed.js";
 
-export interface MessageResponseOptions {
+export interface BaseMessageResponseOptions {
     tts?: boolean;
     content?: string;
     ephemeral?: boolean;
@@ -10,15 +10,17 @@ export interface MessageResponseOptions {
     embeds?: Embed[];
 }
 
-export class MessageResponse extends JsonConvertable {
-    private readonly type = InteractionResponseType.ChannelMessageWithSource;
-    private tts = false;
-    private flags = 0;
-    private content: string | undefined;
-    private embeds: Embed[] = [];
+export class BaseMessageResponse extends JsonConvertable {
+    protected readonly type: InteractionResponseType.ChannelMessageWithSource | InteractionResponseType.UpdateMessage;
+    protected tts = false;
+    protected flags = 0;
+    protected content: string | undefined;
+    protected embeds: Embed[] = [];
 
-    constructor(options?: MessageResponseOptions) {
+    constructor(type: InteractionResponseType.ChannelMessageWithSource | InteractionResponseType.UpdateMessage, options?: BaseMessageResponseOptions) {
         super();
+
+        this.type = type;
 
         if(options?.ephemeral)
             this.setEphemeral(true);
@@ -36,17 +38,17 @@ export class MessageResponse extends JsonConvertable {
             this.setEmbeds(options.embeds);
     }
 
-    public setTTS(tts: boolean): MessageResponse {
+    public setTTS(tts: boolean): BaseMessageResponse {
         this.tts = tts;
         return this;
     }
 
-    public setContent(content: string): MessageResponse {
+    public setContent(content: string): BaseMessageResponse {
         this.content = content;
         return this;
     }
 
-    public setEphemeral(ephemeral: boolean): MessageResponse {
+    public setEphemeral(ephemeral: boolean): BaseMessageResponse {
         if (ephemeral)
             this.flags! |= (1 << 6);
         else
@@ -54,7 +56,7 @@ export class MessageResponse extends JsonConvertable {
         return this;
     }
 
-    public suppressEmbeds(suppress: boolean): MessageResponse {
+    public suppressEmbeds(suppress: boolean): BaseMessageResponse {
         if (suppress)
             this.flags! |= (1 << 2);
         else
@@ -62,22 +64,22 @@ export class MessageResponse extends JsonConvertable {
         return this;
     }
 
-    public setEmbeds(embeds: Embed[] | undefined): MessageResponse {
+    public setEmbeds(embeds: Embed[] | undefined): BaseMessageResponse {
         this.embeds = embeds || [];
         return this;
     }
 
-    public addEmbed(embed: Embed): MessageResponse {
+    public addEmbed(embed: Embed): BaseMessageResponse {
         this.embeds.push(embed);
         return this;
     }
 
-    public addEmbeds(embeds: Embed[]): MessageResponse {
+    public addEmbeds(embeds: Embed[]): BaseMessageResponse {
         this.embeds.push(...embeds);
         return this;
     }
 
-    public toJson(): APIInteractionResponseChannelMessageWithSource {
+    public toJson(): APIInteractionResponse {
         return {
             type: this.type,
             data: {

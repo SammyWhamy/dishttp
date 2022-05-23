@@ -8,7 +8,7 @@ import {
     APIUserApplicationCommandInteraction,
     APIMessageApplicationCommandInteraction
 } from 'discord-api-types/v10';
-import {MessageResponse} from "./MessageResponse.js";
+import {MessageResponse} from "../responses/MessageResponse.js";
 
 export interface CommandData {
     name: string,
@@ -26,7 +26,7 @@ export type MessageCommandExecutor = (message: APIMessageApplicationCommandInter
 export abstract class Command {
     public data: CommandData = {} as CommandData;
     protected type: ApplicationCommandType;
-    protected executor: ChatCommandExecutor | UserCommandExecutor | MessageCommandExecutor | undefined;
+    executor: ChatCommandExecutor | UserCommandExecutor | MessageCommandExecutor | undefined;
 
     protected constructor(options?: {data?: CommandData}) {
         if(options?.data)

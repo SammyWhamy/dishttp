@@ -1,5 +1,5 @@
 import type { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedFooter } from 'discord-api-types/v10';
-import {JsonConvertable} from "./JsonConvertable.js";
+import {JsonConvertable} from "../json/JsonConvertable.js";
 
 export type RGBTuple = [red: number, green: number, blue: number];
 

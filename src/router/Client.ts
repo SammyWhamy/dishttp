@@ -1,18 +1,22 @@
-import {Router, RouteHandler} from 'itty-router';
+import {RouteHandler, Router} from 'itty-router';
 import {
-    ApplicationCommandType,
-    InteractionResponseType,
-    InteractionType,
-    ApplicationCommandOptionType,
+    APIApplicationCommandInteractionDataIntegerOption,
     APIApplicationCommandInteractionDataNumberOption,
     APIApplicationCommandInteractionDataStringOption,
-    APIApplicationCommandInteractionDataIntegerOption
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    ComponentType,
+    InteractionResponseType,
+    InteractionType
 } from "discord-api-types/v10";
 import {isAPIInteraction} from "../util/validators/index.js";
 import {verifyKey} from '../util/index.js';
-import {ChatCommand, UserCommand, MessageCommand, JsonResponse, Command} from "../structures/index.js";
+import {ChatCommand, Command, JsonResponse, MessageCommand, UserCommand} from "../structures/index.js";
 import {JSON_HEADERS} from "../constants/index.js";
-import {JsonConvertable} from "../structures/JsonConvertable.js";
+import {JsonConvertable} from "../structures/json/JsonConvertable.js";
+import {ButtonComponent} from "../structures/components/ButtonComponent.js";
+import {SelectMenuComponent} from "../structures/components/SelectMenuComponent.js";
+import {Component} from "../structures/components/Component.js";
 
 export interface RouterOptions {
     notFoundHandler? (...handler: RouteHandler<Request>[]): Promise<JsonResponse> | JsonResponse;
@@ -24,11 +28,31 @@ export interface RegisterOptions {
     guildId?: string;
 }
 
+export interface ClientHandlers {
+    commands: {
+        chat: Map<string, ChatCommand>,
+        user: Map<string, UserCommand>,
+        message: Map<string, MessageCommand>,
+    },
+    components: {
+        button: Map<string, ButtonComponent>,
+        selectMenu: Map<string, SelectMenuComponent>,
+    },
+}
+
 export class Client {
     private readonly router: Router<Request, {}>;
-    public chatCommands: Map<string, ChatCommand> = new Map<string, ChatCommand>();
-    public userCommands: Map<string, UserCommand> = new Map<string, UserCommand>();
-    public messageCommands: Map<string, MessageCommand> = new Map<string, MessageCommand>();
+    public handlers: ClientHandlers = {
+        commands: {
+            chat: new Map<string, ChatCommand>(),
+            user: new Map<string, UserCommand>(),
+            message: new Map<string, MessageCommand>(),
+        },
+        components: {
+            button: new Map<string, ButtonComponent>(),
+            selectMenu: new Map<string, SelectMenuComponent>(),
+        },
+    }
 
     constructor(options?: RouterOptions) {
         this.router = Router();
@@ -45,18 +69,37 @@ export class Client {
 
         if (body.type === InteractionType.Ping) return Client.interactionPong();
 
+        if (body.type === InteractionType.MessageComponent) {
+            let component: Component | undefined;
+
+            switch(body.data.component_type) {
+                case ComponentType.Button:
+                    component = this.handlers.components.button.get(body.data.custom_id);
+                    break;
+                case ComponentType.SelectMenu:
+                    component = this.handlers.components.selectMenu.get(body.data.custom_id);
+                    break;
+            }
+
+            if(!component) return Client.badRequest();
+            if(!component.handler) throw new Error('Component handler is not defined');
+            const response = await component.handler(body as any);
+            if (response instanceof JsonConvertable) return new JsonResponse(response.toJson());
+            else return new JsonResponse(response);
+        }
+
         if (body.type === InteractionType.ApplicationCommand) {
-            let command: ChatCommand | UserCommand | MessageCommand | undefined;
+            let command: Command | undefined;
 
             switch(body.data.type) {
                 case ApplicationCommandType.ChatInput:
-                    command = this.chatCommands.get(body.data.name);
+                    command = this.handlers.commands.chat.get(body.data.name);
                     break;
                 case ApplicationCommandType.Message:
-                    command = this.messageCommands.get(body.data.name);
+                    command = this.handlers.commands.message.get(body.data.name);
                     break;
                 case ApplicationCommandType.User:
-                    command = this.userCommands.get(body.data.name);
+                    command = this.handlers.commands.user.get(body.data.name);
                     break;
             }
 
@@ -84,7 +127,7 @@ export class Client {
             if(!focused)
                 return Client.badRequest();
 
-            const command = this.chatCommands.get(body.data.name);
+            const command = this.handlers.commands.chat.get(body.data.name);
             if(!command?.autocompleter)
                 return Client.badRequest();
 
@@ -101,7 +144,9 @@ export class Client {
     public async handle(request: Request, env: { [key: string]: string }): Promise<JsonResponse> {
         if(request.method === "POST") {
             const valid = await Client.verifyPost(request, env);
-            if(!valid) return Client.unauthorized();
+            if(!valid) {
+                return Client.unauthorized();
+            }
         }
 
         return this.router.handle(request);
@@ -109,11 +154,11 @@ export class Client {
 
     public addCommand(command: Command): void {
         if(command instanceof ChatCommand)
-            this.chatCommands.set(command.data.name, command);
+            this.handlers.commands.chat.set(command.data.name, command);
         else if(command instanceof UserCommand)
-            this.userCommands.set(command.data.name, command);
+            this.handlers.commands.user.set(command.data.name, command);
         else if(command instanceof MessageCommand)
-            this.messageCommands.set(command.data.name, command);
+            this.handlers.commands.message.set(command.data.name, command);
     }
 
     public addCommands(commands: Command[]): void {
@@ -129,9 +174,9 @@ export class Client {
             : `https://discord.com/api/v10/applications/${options.applicationId}/commands`;
 
         let commands = [
-            ...this.chatCommands.values(),
-            ...this.userCommands.values(),
-            ...this.messageCommands.values()
+            ...this.handlers.commands.chat.values(),
+            ...this.handlers.commands.user.values(),
+            ...this.handlers.commands.message.values()
         ].map(c => {
             return {...c.data, type: c.type};
         });
