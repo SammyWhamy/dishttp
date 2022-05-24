@@ -1,6 +1,6 @@
 import {ChatCommandExecutor, Command, CommandData} from "./Command.js";
-import {APIApplicationCommandOption, ApplicationCommandType} from "discord-api-types/v10";
-import {Locale} from "discord-api-types/v10";
+import {APIApplicationCommandOption, ApplicationCommandType, Locale} from "discord-api-types/v10";
+import {Env} from "../../client/Client.js";
 
 export interface ChatCommandData extends CommandData {
     options?: APIApplicationCommandOption[],
@@ -9,7 +9,7 @@ export interface ChatCommandData extends CommandData {
 }
 
 export type Choice = { name: string, value: string }
-export type Autocompleter = (query: string | number) => Choice[];
+export type Autocompleter = (query: string | number, env: Env) => Choice[];
 
 export class ChatCommand extends Command {
     public override data: ChatCommandData = {} as ChatCommandData;

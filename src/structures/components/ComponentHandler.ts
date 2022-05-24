@@ -7,7 +7,7 @@ import {
 } from "discord-api-types/v10";
 import {ComponentResponse} from "../responses/ComponentResponse.js";
 import {MessageResponse} from "../responses/MessageResponse.js";
-import {Env} from "../../router/Client.js";
+import {Env} from "../../client/Client.js";
 import {ModalResponse} from "../responses/ModalResponse.js";
 
 export interface ComponentHandlerData {

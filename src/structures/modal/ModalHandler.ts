@@ -3,8 +3,8 @@ import {
     APIInteractionResponseChannelMessageWithSource,
     APIInteractionResponseDeferredChannelMessageWithSource,
     APIModalSubmitInteraction
-} from "discord-api-types/v10.js";
-import {Env} from "../../router/Client.js";
+} from "discord-api-types/v10";
+import {Env} from "../../client/Client.js";
 
 export type ModalResponseUnion = MessageResponse | APIInteractionResponseChannelMessageWithSource | APIInteractionResponseDeferredChannelMessageWithSource;
 export type ModalExecutor = (modal: APIModalSubmitInteraction, env: Env) => ModalResponseUnion | Promise<ModalResponseUnion>;
