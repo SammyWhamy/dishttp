@@ -1,6 +1,5 @@
-import {JsonConvertable} from "../json/JsonConvertable.js";
+import {Button, JsonConvertable} from "@structures/index.js";
 import {APIActionRowComponent, APIButtonComponent, APISelectMenuComponent} from "discord-api-types/v10";
-import {Button} from "./Button.js";
 
 type ComponentUnion = Button | APIButtonComponent | APISelectMenuComponent;
 

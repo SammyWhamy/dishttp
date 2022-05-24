@@ -1,6 +1,6 @@
-import {Client} from "../Client.js";
-import {Command} from "../../structures/index.js";
-import {BASE_URL, JSON_HEADER} from "../../constants/index.js";
+import {Client} from "@client/index.js";
+import {BASE_URL, JSON_HEADER} from "@constants/index.js";
+import {Command} from "@structures/index.js";
 
 export interface RegisterOptions {
     token: string;

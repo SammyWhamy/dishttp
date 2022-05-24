@@ -1,5 +1,5 @@
-import {InteractionResponseType, APIInteractionResponseUpdateMessage} from "discord-api-types/v10";
-import {BaseMessageResponse, BaseMessageResponseOptions} from "./BaseMessageResponse.js";
+import {BaseMessageResponse, BaseMessageResponseOptions} from "@structures/index.js";
+import {APIInteractionResponseUpdateMessage, InteractionResponseType} from "discord-api-types/v10";
 
 export declare interface ComponentResponse {
     toJson(): APIInteractionResponseUpdateMessage;

@@ -1,4 +1,4 @@
-import {ButtonComponentExecutor, ComponentHandler, ComponentHandlerData,} from "./ComponentHandler.js";
+import {ButtonComponentExecutor, ComponentHandler, ComponentHandlerData,} from "@structures/index.js";
 import {ComponentType} from "discord-api-types/v10";
 
 export class ButtonComponentHandler extends ComponentHandler {

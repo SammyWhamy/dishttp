@@ -1,8 +1,7 @@
+import {Env} from "@client/index.js";
+import {badRequest, Handlers} from "@modules/index.js";
+import {Command, JsonConvertable, JsonResponse} from "@structures/index.js";
 import {APIApplicationCommandInteraction, ApplicationCommandType} from "discord-api-types/v10";
-import {Command, JsonConvertable, JsonResponse} from "../../../structures/index.js";
-import {badRequest} from "../web.js";
-import {Env} from "../../Client.js";
-import {Handlers} from "../handlers.js";
 
 export async function handleApplicationCommand(handlers: Handlers, body: APIApplicationCommandInteraction, env: Env): Promise<JsonResponse> {
     let command: Command | undefined;

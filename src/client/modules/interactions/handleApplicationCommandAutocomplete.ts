@@ -1,14 +1,14 @@
-import {Handlers} from "../handlers.js";
-import {Env} from "../../Client.js";
-import {JsonResponse} from "../../../structures/index.js";
+import {Env} from "@client/index.js";
+import {badRequest, Handlers} from "@modules/index.js";
+import {JsonResponse} from "@structures/index.js";
 import {
     APIApplicationCommandAutocompleteInteraction,
     APIApplicationCommandInteractionDataIntegerOption,
     APIApplicationCommandInteractionDataNumberOption,
     APIApplicationCommandInteractionDataStringOption,
-    ApplicationCommandOptionType, InteractionResponseType
+    ApplicationCommandOptionType,
+    InteractionResponseType
 } from "discord-api-types/v10";
-import {badRequest} from "../web.js";
 
 export async function handleApplicationCommandAutocomplete(handlers: Handlers, body: APIApplicationCommandAutocompleteInteraction, env: Env): Promise<JsonResponse> {
     const focused = body.data.options.find(o => {

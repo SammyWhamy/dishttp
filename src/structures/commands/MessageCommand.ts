@@ -1,4 +1,4 @@
-import {Command, CommandData, MessageCommandExecutor} from "./Command.js";
+import {Command, CommandData, MessageCommandExecutor} from "@structures/index.js";
 import {ApplicationCommandType} from "discord-api-types/v10";
 
 export class MessageCommand extends Command {

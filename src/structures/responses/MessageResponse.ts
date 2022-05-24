@@ -1,5 +1,5 @@
+import {BaseMessageResponse, BaseMessageResponseOptions} from "@structures/index.js";
 import {APIInteractionResponseChannelMessageWithSource, InteractionResponseType} from "discord-api-types/v10";
-import {BaseMessageResponse, BaseMessageResponseOptions} from "./BaseMessageResponse.js";
 
 export declare interface MessageResponse {
     toJson(): APIInteractionResponseChannelMessageWithSource;

@@ -1,4 +1,4 @@
-import {verify} from "../libs/nacl.js";
+import {verify} from "@libs/index.js";
 
 function valueToUint8Array(value: ArrayBuffer | string, format?: string) {
     if (value == null)

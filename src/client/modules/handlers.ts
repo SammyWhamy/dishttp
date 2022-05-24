@@ -1,10 +1,13 @@
 import {
     ButtonComponentHandler,
-    ChatCommand, Command, ComponentHandler,
-    MessageCommand, ModalHandler,
+    ChatCommand,
+    Command,
+    ComponentHandler,
+    MessageCommand,
+    ModalHandler,
     SelectMenuComponentHandler,
     UserCommand
-} from "../../structures/index.js";
+} from "@structures/index.js";
 
 export class Handlers {
     public commands = {

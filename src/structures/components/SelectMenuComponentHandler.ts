@@ -1,4 +1,4 @@
-import {ComponentHandler, ComponentHandlerData, SelectMenuComponentExecutor} from "./ComponentHandler.js";
+import {ComponentHandler, ComponentHandlerData, SelectMenuComponentExecutor} from "@structures/index.js";
 import {ComponentType} from "discord-api-types/v10";
 
 export class SelectMenuComponentHandler extends ComponentHandler {

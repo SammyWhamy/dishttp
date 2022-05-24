@@ -1,6 +1,6 @@
-import {verifyKey} from "../../util/index.js";
-import {JsonResponse} from "../../structures/index.js";
-import {JSON_HEADER} from "../../constants/index.js";
+import {JSON_HEADER} from "@constants/json.js";
+import {JsonResponse} from "@structures/index.js";
+import {verifyKey} from "@utils/index.js";
 import {Router} from "itty-router";
 
 export async function handle(router: Router<Request, {}>, request: Request, env: { [key: string]: string }): Promise<JsonResponse> {

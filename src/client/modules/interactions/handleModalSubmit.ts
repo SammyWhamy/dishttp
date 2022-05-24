@@ -1,8 +1,7 @@
-import {Env} from "../../Client.js";
-import {JsonConvertable, JsonResponse} from "../../../structures/index.js";
+import {Env} from "@client/index.js";
+import {badRequest, Handlers} from "@modules/index.js";
+import {JsonConvertable, JsonResponse} from "@structures/index.js";
 import {APIModalSubmitInteraction} from "discord-api-types/v10";
-import {badRequest} from "../web.js";
-import {Handlers} from "../handlers.js";
 
 export async function handleModalSubmit(handlers: Handlers, body: APIModalSubmitInteraction, env: Env): Promise<JsonResponse> {
     const modal = handlers.modal.get(body.data.custom_id);

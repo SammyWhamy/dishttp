@@ -1,4 +1,4 @@
-import {Command, CommandData, UserCommandExecutor} from "./Command.js";
+import {Command, CommandData, UserCommandExecutor} from "@structures/index.js";
 import {ApplicationCommandType} from "discord-api-types/v10";
 
 export class UserCommand extends Command {

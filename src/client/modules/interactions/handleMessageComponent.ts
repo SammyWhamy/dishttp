@@ -1,8 +1,7 @@
-import {Handlers} from "../handlers.js";
-import {Env} from "../../Client.js";
-import {ComponentHandler, JsonConvertable, JsonResponse} from "../../../structures/index.js";
+import {Env} from "@client/index.js";
+import {badRequest, Handlers} from "@modules/index.js";
+import {ComponentHandler, JsonConvertable, JsonResponse} from "@structures/index.js";
 import {APIMessageComponentInteraction, ComponentType} from "discord-api-types/v10";
-import {badRequest} from "../web.js";
 
 export async function handleMessageComponent(handlers: Handlers, body: APIMessageComponentInteraction, env: Env): Promise<JsonResponse> {
     let component: ComponentHandler | undefined;

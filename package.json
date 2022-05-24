@@ -1,6 +1,6 @@
 {
   "name": "dishttp",
-  "version": "2.0.0-alpha.31",
+  "version": "2.0.0-alpha.32",
   "description": "A Discord HTTP Interactions library for Node.JS",
   "type": "module",
   "main": "dist/index.js",
@@ -8,6 +8,10 @@
   "author": "Sam Teeuwisse",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "prepare": "ts-patch install -s",
+    "build": "tsc"
+  },
   "exports": {
     ".": "./dist/index.js",
     "./nodeInit": "./dist/nodeInit.js"
@@ -18,7 +22,9 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.33",
-    "typescript": "^4.6.4"
+    "ts-patch": "^2.0.1",
+    "typescript": "^4.6.4",
+    "typescript-transform-paths": "^3.3.1"
   },
   "optionalDependencies": {
     "node-fetch": "^3.2.4"

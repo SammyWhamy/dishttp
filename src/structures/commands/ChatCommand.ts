@@ -1,6 +1,6 @@
-import {ChatCommandExecutor, Command, CommandData} from "./Command.js";
+import {Env} from "@client/index.js";
+import {ChatCommandExecutor, Command, CommandData} from "@structures/index.js";
 import {APIApplicationCommandOption, ApplicationCommandType, Locale} from "discord-api-types/v10";
-import {Env} from "../../client/Client.js";
 
 export interface ChatCommandData extends CommandData {
     options?: APIApplicationCommandOption[],

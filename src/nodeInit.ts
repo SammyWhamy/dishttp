@@ -1,4 +1,4 @@
-import {Response, Request, default as fetch} from 'node-fetch';
+import {default as fetch, Request, Response} from 'node-fetch';
 
 // @ts-ignore
 global.Response ??= Response;

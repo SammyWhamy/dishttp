@@ -1,9 +1,9 @@
-import {JsonConvertable} from "../json/JsonConvertable.js";
+import {JsonConvertable} from "@structures/index.js";
 import {
+    APIActionRowComponent,
     APIModalInteractionResponse,
     APITextInputComponent,
-    InteractionResponseType,
-    APIActionRowComponent
+    InteractionResponseType
 } from "discord-api-types/v10";
 
 export interface ModalResponseOptions {

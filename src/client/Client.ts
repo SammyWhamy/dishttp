@@ -1,20 +1,20 @@
-import {RouteHandler, Router} from 'itty-router';
-import {InteractionType} from "discord-api-types/v10";
-import {isAPIInteraction} from "../util/index.js";
-import {JsonResponse} from "../structures/index.js";
 import {
-    registerCommands,
-    unregisterCommands,
     badRequest,
-    notFound,
     handle,
-    handleModalSubmit,
-    handlePing,
-    handleMessageComponent,
     handleApplicationCommand,
     handleApplicationCommandAutocomplete,
+    handleMessageComponent,
+    handleModalSubmit,
+    handlePing,
     Handlers,
-} from "./modules/index.js";
+    notFound,
+    registerCommands,
+    unregisterCommands,
+} from "@modules/index.js";
+import {JsonResponse} from "@structures/index.js";
+import {isAPIInteraction} from "@utils/index.js";
+import {InteractionType} from "discord-api-types/v10";
+import {RouteHandler, Router} from 'itty-router';
 
 export interface RouterOptions {
     baseGetHandler? (...handler: RouteHandler<Request>[]): Promise<JsonResponse> | JsonResponse;
@@ -69,5 +69,5 @@ export class Client {
     public registerCommands = registerCommands;
     public unregisterCommands = unregisterCommands;
 
-    public export = () => ({fetch: async (request: Request, env: {[key: string]: any}) => handle(this.router, request, env)});
+    public export = () => ({fetch: async (request: Request, env: Env) => handle(this.router, request, env)});
 }

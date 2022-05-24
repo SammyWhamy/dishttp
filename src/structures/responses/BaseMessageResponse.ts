@@ -1,10 +1,5 @@
-import {
-    InteractionResponseType,
-    APIInteractionResponse,
-} from "discord-api-types/v10";
-import {JsonConvertable} from "../json/JsonConvertable.js";
-import {Embed} from "../objects/Embed.js";
-import {ActionRow} from "../objects/ActionRow.js";
+import {ActionRow, Embed, JsonConvertable} from "@structures/index.js";
+import {APIInteractionResponse, InteractionResponseType,} from "discord-api-types/v10";
 
 export interface BaseMessageResponseOptions {
     tts?: boolean;

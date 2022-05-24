@@ -1,16 +1,15 @@
+import {Env} from "@client/index.js";
+import {MessageResponse, ModalResponse} from "@structures/index.js";
 import {
-    ApplicationCommandType,
-    Locale,
+    APIChatInputApplicationCommandInteraction,
     APIInteractionResponseChannelMessageWithSource,
     APIInteractionResponseDeferredChannelMessageWithSource,
+    APIMessageApplicationCommandInteraction,
     APIModalInteractionResponse,
-    APIChatInputApplicationCommandInteraction,
     APIUserApplicationCommandInteraction,
-    APIMessageApplicationCommandInteraction
+    ApplicationCommandType,
+    Locale
 } from 'discord-api-types/v10';
-import {MessageResponse} from "../responses/MessageResponse.js";
-import {Env} from "../../client/Client.js";
-import {ModalResponse} from "../responses/ModalResponse.js";
 
 export interface CommandData {
     name: string,
