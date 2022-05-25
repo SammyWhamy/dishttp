@@ -32,9 +32,9 @@ async function putApplicationCommands(client: Client, options: RegisterOptions, 
 
 export function registerCommands(this: Client, options: RegisterOptions): Promise<any> {
     let commands = [
-        ...this.handlers.commands.chat.values(),
-        ...this.handlers.commands.user.values(),
-        ...this.handlers.commands.message.values()
+        ...this.handlers.chatCommands.values(),
+        ...this.handlers.userCommands.values(),
+        ...this.handlers.messageCommands.values()
     ].map(c => {
         return {...c.data, type: c.type};
     });

@@ -27,7 +27,7 @@ export async function handleApplicationCommandAutocomplete(handlers: Handlers, b
     if(!focused)
         return badRequest();
 
-    const command = handlers.commands.chat.get(body.data.name);
+    const command = handlers.chatCommands.get(body.data.name);
     if(!command?.autocompleter)
         return badRequest();
 

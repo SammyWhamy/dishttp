@@ -8,13 +8,13 @@ export async function handleApplicationCommand(handlers: Handlers, body: APIAppl
 
     switch(body.data.type) {
         case ApplicationCommandType.ChatInput:
-            command = handlers.commands.chat.get(body.data.name);
+            command = handlers.chatCommands.get(body.data.name);
             break;
         case ApplicationCommandType.Message:
-            command = handlers.commands.message.get(body.data.name);
+            command = handlers.messageCommands.get(body.data.name);
             break;
         case ApplicationCommandType.User:
-            command = handlers.commands.user.get(body.data.name);
+            command = handlers.userCommands.get(body.data.name);
             break;
     }
 

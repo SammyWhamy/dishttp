@@ -8,10 +8,10 @@ export async function handleMessageComponent(handlers: Handlers, body: APIMessag
 
     switch(body.data.component_type) {
         case ComponentType.Button:
-            component = handlers.components.button.get(body.data.custom_id);
+            component = handlers.buttonComponents.get(body.data.custom_id);
             break;
         case ComponentType.SelectMenu:
-            component = handlers.components.selectMenu.get(body.data.custom_id);
+            component = handlers.selectMenuComponents.get(body.data.custom_id);
             break;
     }
 
