@@ -63,9 +63,6 @@ export class Client {
             return badRequest();
     }
 
-    public addHandler = this.handlers.addHandler;
-    public addHandlers = this.handlers.addHandlers;
-
     public registerCommands = registerCommands;
     public unregisterCommands = unregisterCommands;
 
