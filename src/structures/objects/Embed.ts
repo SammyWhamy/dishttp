@@ -2,7 +2,7 @@ import {JsonConvertable} from "@structures/index.js";
 import {APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedFooter} from 'discord-api-types/v10';
 
 export class Embed extends JsonConvertable {
-    private readonly data: APIEmbed;
+    public readonly data: APIEmbed;
 
     public constructor(data: APIEmbed = {}) {
         super();
@@ -11,6 +11,11 @@ export class Embed extends JsonConvertable {
 
         if (data.timestamp)
             this.data.timestamp = new Date(data.timestamp).toISOString();
+    }
+
+    public setFields(fields: APIEmbedField[]): this {
+        this.data.fields = fields;
+        return this;
     }
 
     public addFields(fields: APIEmbedField[]): this {
@@ -25,7 +30,7 @@ export class Embed extends JsonConvertable {
         return this;
     }
 
-    public setAuthor(options: Omit<APIEmbedAuthor, 'proxyIconURL'> | null): this {
+    public setAuthor(options: Omit<APIEmbedAuthor, 'proxy_icon_url'> | null): this {
         if (options === null) delete this.data.author;
         else this.data.author = { name: options.name, url: options.url!, icon_url: options.icon_url! };
         return this;
@@ -43,7 +48,7 @@ export class Embed extends JsonConvertable {
         return this;
     }
 
-    public setFooter(options: Omit<APIEmbedFooter, 'proxyIconURL'> | null): this {
+    public setFooter(options: Omit<APIEmbedFooter, 'proxy_icon_url'> | null): this {
         if (options === null) delete this.data.footer;
         else this.data.footer = { text: options.text, icon_url: options.icon_url! };
         return this;
