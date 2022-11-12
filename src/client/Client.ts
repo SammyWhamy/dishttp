@@ -47,6 +47,8 @@ export class Client {
 
         const body = await request.json();
 
+        this.handlers.verbose(body);
+
         if (!isAPIInteraction(body))
             return badRequest();
         else if (body.type === InteractionType.Ping)

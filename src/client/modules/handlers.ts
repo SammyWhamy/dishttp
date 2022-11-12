@@ -16,6 +16,7 @@ export class Handlers {
     public buttonComponents = new Map<string, ButtonComponentHandler>();
     public selectMenuComponents = new Map<string, SelectMenuComponentHandler>();
     public modalSubmits = new Map<string, ModalHandler>();
+    public verbose: (body: any) => void = () => {};
 
     public addHandler(handler: ComponentHandler | ModalHandler | Command): void {
         if(handler instanceof ChatCommand)
@@ -30,6 +31,10 @@ export class Handlers {
             this.selectMenuComponents.set(handler.customId, handler);
         else if(handler instanceof ModalHandler)
             this.modalSubmits.set(handler.customId, handler);
+    }
+
+    public setVerboseHandler(handler: (body: any) => void): void {
+        this.verbose = handler;
     }
 
     public addHandlers(handlers: (ComponentHandler | ModalHandler | Command)[]): void {
