@@ -1,20 +1,18 @@
 import '../../../dist/nodeInit.js';
-import chai, {expect} from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import {expect} from 'chai';
 import {ButtonStyle, ComponentType} from "discord-api-types/v10";
-import {describe, it} from 'mocha';
+import {suite, test} from 'mocha';
 import {Button} from "../../../dist/index.js";
 
-chai.use(chaiAsPromised);
 
-describe("Button", () => {
-    it('Default initialization', () => {
+suite("Button", () => {
+    test('Default initialization', () => {
         const button = new Button();
         expect(button.data).to.deep.equal({type: ComponentType.Button});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
     });
 
-    it('Set style', () => {
+    test('Set style', () => {
         const button = new Button();
 
         button.setStyle(ButtonStyle.Primary);
@@ -38,14 +36,14 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, style: ButtonStyle.Link});
     });
 
-    it('Set label', () => {
+    test('Set label', () => {
         const button = new Button();
 
         button.setLabel('Label');
         expect(button.data).to.deep.equal({type: ComponentType.Button, label: 'Label'});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, label: 'Label'});
 
-        button.setLabel();
+        button.setLabel(null);
         expect(button.data).to.deep.equal({type: ComponentType.Button});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
 
@@ -58,14 +56,14 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
     });
 
-    it('Set emoji', () => {
+    test('Set emoji', () => {
         const button = new Button();
 
         button.setEmoji({name: 'Emoji', id: '1234567890'});
         expect(button.data).to.deep.equal({type: ComponentType.Button, emoji: {name: 'Emoji', id: '1234567890'}});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, emoji: {name: 'Emoji', id: '1234567890'}});
 
-        button.setEmoji();
+        button.setEmoji(null);
         expect(button.data).to.deep.equal({type: ComponentType.Button});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
 
@@ -82,14 +80,14 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, emoji: {name: 'Emoji 3', id: '1234567890'}});
     });
 
-    it('Set url', () => {
+    test('Set url', () => {
         const button = new Button();
 
         button.setUrl('https://example.com');
         expect(button.data).to.deep.equal({type: ComponentType.Button, url: 'https://example.com'});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, url: 'https://example.com'});
 
-        button.setUrl();
+        button.setUrl(null);
         expect(button.data).to.deep.equal({type: ComponentType.Button});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
 
@@ -106,7 +104,7 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, url: 'https://example.com/3'});
     });
 
-    it('Set disabled', () => {
+    test('Set disabled', () => {
         const button = new Button();
 
         button.setDisabled(true);
@@ -122,14 +120,14 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, disabled: true});
     });
 
-    it('Set custom id', () => {
+    test('Set custom id', () => {
         const button = new Button();
 
         button.setCustomId('custom-id');
         expect(button.data).to.deep.equal({type: ComponentType.Button, custom_id: 'custom-id'});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, custom_id: 'custom-id'});
 
-        button.setCustomId();
+        button.setCustomId(null);
         expect(button.data).to.deep.equal({type: ComponentType.Button});
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button});
 
@@ -146,7 +144,7 @@ describe("Button", () => {
         expect(button.toJson()).to.deep.equal({type: ComponentType.Button, custom_id: 'custom-id-3'});
     });
 
-    it('Full test', () => {
+    test('Full test', () => {
         const button = new Button();
 
         button.setLabel('Label');
