@@ -9,7 +9,7 @@ export interface ChatCommandData extends CommandData {
 }
 
 export type Choice = { name: string, value: string }
-export type Autocompleter = (query: string | number, env: Env) => Choice[];
+export type Autocompleter = (query: string | number, env: Env) => Choice[] | Promise<Choice[]>;
 
 export class ChatCommand extends Command {
     public override data: ChatCommandData = {} as ChatCommandData;

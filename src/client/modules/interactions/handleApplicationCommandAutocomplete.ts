@@ -31,7 +31,7 @@ export async function handleApplicationCommandAutocomplete(handlers: Handlers, b
     if(!command?.autocompleter)
         return badRequest();
 
-    const choices = command.autocompleter(focused.value, env);
+    const choices = await command.autocompleter(focused.value, env);
     return new JsonResponse({
         type: InteractionResponseType.ApplicationCommandAutocompleteResult,
         data: { choices },
